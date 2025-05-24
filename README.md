@@ -1,1 +1,1 @@
-# Embedded-Simon-Says
+# Embedded Simon Says
