@@ -20,12 +20,12 @@ struct button SPECIAL_BUTTON = {0, 0, 0, 0, &all_block, SPECIAL};
 // configure_external_switches()
 // @parm: none
 // @return: none
-// 		Setups 4 external push button switches at PA4, PC0, PC2, and PA1 for input. Also configures external
-//		interrupts for pins 4, 0, 2 and 1
+// 	Setups 4 external push button switches at PA4, PC0, PC2, and PA1 for input. Also configures external
+//	interrupts for pins 4, 0, 2 and 1
 //  	Note: 	BLUE Button = PA4,
-//				RED Button = PC0,
-//			    YELLOW Button = PC2,
-//				GREEN Button = PA1
+//		RED Button = PC0,
+//		YELLOW Button = PC2,
+//		GREEN Button = PA1
 //================================================================================================
 void configure_external_switches(void)
 {
@@ -67,11 +67,11 @@ void configure_external_switches(void)
 	    SYSCFG->EXTICR[1] &= ~(0xF << 0);
 	    SYSCFG->EXTICR[1] |=  (0x0 << 0); // PA
 
-		EXTI -> FTSR1 |= (0x1 << 4)|(0x1 << 0)|(0x1<<2)| (0x1 << 1); //enable falling edge trigger detection
+	EXTI -> FTSR1 |= (0x1 << 4)|(0x1 << 0)|(0x1<<2)| (0x1 << 1); //enable falling edge trigger detection
      	EXTI -> IMR1 |= (0x1 << 4)|(0x1 << 0)|(0x1<<2)|(0x1 << 1); //Unmask EXTI4, EXTI0, EXTI2, EXTI1
     	NVIC_SetPriority(EXTI4_IRQn, 6); //pin 4 interrupt: priority level 6
     	NVIC_SetPriority(EXTI0_IRQn, 7);//pin 0 interrupt: priority level 7
-    	NVIC_SetPriority(EXTI2_IRQn, 8);//pin 2 interrupt: priority level 7
+    	NVIC_SetPriority(EXTI2_IRQn, 8);//pin 2 interrupt: priority level 8
     	NVIC_SetPriority(EXTI1_IRQn, 5);//pin 1 interrupt: priority level 5
 
     	NVIC_EnableIRQ(EXTI4_IRQn); //enable interrupt at pin 4
