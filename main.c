@@ -54,13 +54,13 @@ int main(void)
 
 		//handle player win
 		if (input_index == PATTERNS[selected_pattern]->length ){ //if the player has won...
-	    	system_timeSTAMP = msTimer;//create timestamp
-	    	TEST_ACTIVE_LED_OFF; //the test is over, so turn off test indicator LED
+	    		system_timeSTAMP = msTimer;//create timestamp
+	    		TEST_ACTIVE_LED_OFF; //the test is over, so turn off test indicator LED
 			input_index = 0; //reset input_index
-		    updateARR(SIX_HZ_SPEED); //stop the timer and update the speed of the timer
+			updateARR(SIX_HZ_SPEED); //stop the timer and update the speed of the timer
 			START_TIM2(); //start the timer
 			gamestate = celebration_screen; //exit test screen and go to celebration screen (display win animation)
-	    }
+	   	}
 
 		//handle game
 		switch(gamestate){
@@ -71,65 +71,62 @@ int main(void)
 			gamestate = leaving_start_screen;
 			break;
 		case leaving_start_screen://begin leaving the start screen
-				if(msTimer - system_timeSTAMP >= START_SCREEN_TIME){//if start screen time is up
-					TURN_OFF_LED_BLOCK(&STATUS_INDICATOR_BLOCK); //turn off the fail and test LEDS
-					TURN_OFF_LED_BLOCK(&all_block); //turn off all colors
-					system_timeSTAMP = msTimer; //create timestamp for next state
-					gamestate = loading_pattern;
-				}
-				break;
+			if(msTimer - system_timeSTAMP >= START_SCREEN_TIME){//if start screen time is up
+				TURN_OFF_LED_BLOCK(&STATUS_INDICATOR_BLOCK); //turn off the fail and test LEDS
+				TURN_OFF_LED_BLOCK(&all_block); //turn off all colors
+				system_timeSTAMP = msTimer; //create timestamp for next state
+				gamestate = loading_pattern;
+			}
+			break;
 		case loading_pattern: //prepare to display pattern
-				if(msTimer - system_timeSTAMP >= PATTERN_RELOAD_TIME){ //if the time is up
-					updateARR(TWO_HZ_SPEED);//stop timer and set ARR value to 2HZ
-					START_TIM2(); //start timer
-					system_timeSTAMP = 0; //reset
-				    PATTERNS[selected_pattern]->current_step = 0; //reset pattern progress
-					gamestate = displaying_pattern; //transition
-				}
-				break;
-			case displaying_pattern:
-				if (LED_updateFLAG == 1){ //if TIM2 has set the LED update FLAG....
-					LED_updateFLAG = 0;//clear - will be set back to 1 again by TIM2
-					//display current step in the pattern and progress to next step
-					//stops timer and enters test state when finished
-					DISPLAY_PATTERN(PATTERNS[selected_pattern]);
-				}
-				break;
-			case test:
-				//can either go to celebration_screen or fail_screen based on user input
-				break;
-			case celebration_screen: //the player has passed the test
-				if (LED_updateFLAG == 1){//if TIM2 has set the LED update FLAG....
-						LED_updateFLAG =0;//clear - will be set back to 1 again by TIM2
-						QUICK_TOGGLE_LED_BLOCK(&all_block);//toggle all colors
-				}
-				if (msTimer - system_timeSTAMP>= CELEBRATION_DURATION){//if the win screen time is up...
-					TURN_OFF_LED_BLOCK(&all_block); //turn off all colors
-					system_timeSTAMP = msTimer; //create time stamp to leave next phase
-					gamestate = wait_for_next_game; //transition
-
-				}
-				break;
-			case fail_screen://the player pressed the wrong button, failing the test
-				if (LED_updateFLAG == 1){//if TIM2 has set the LED update FLAG....
-					LED_updateFLAG = 0;//clear - will be set back to 1 again by TIM2
-					FAIL_LED_TOGGLE; //Toggle FAIL LED
-				}
-				if (msTimer - system_timeSTAMP>= FAIL_SCREEN_DURATION){//if TIM2 has set the LED update FLAG....
-					TURN_OFF_LED_BLOCK(&all_block);//turn off all colors
-					FAIL_LED_OFF;//turn off the FAIL LED
-					system_timeSTAMP = msTimer; //create timestamp
-					gamestate = loading_pattern; //load the pattern again
-				}
-				break;
-			case wait_for_next_game: //cool down after a win
-				if (msTimer - system_timeSTAMP>= NEXT_GAME_COOLDOWN_DURATION){//if the cool down time has passed...
-			    	updateARR(TWO_HZ_SPEED);//stop timer and set ARR value to 2HZ
-					gamestate = start_screen_display;//enter the start screen
-				}
-				break;
-
-
+			if(msTimer - system_timeSTAMP >= PATTERN_RELOAD_TIME){ //if the time is up
+				updateARR(TWO_HZ_SPEED);//stop timer and set ARR value to 2HZ
+				START_TIM2(); //start timer
+				system_timeSTAMP = 0; //reset
+				PATTERNS[selected_pattern]->current_step = 0; //reset pattern progress
+				gamestate = displaying_pattern; //transition
+			}
+			break;
+		case displaying_pattern:
+			if (LED_updateFLAG == 1){ //if TIM2 has set the LED update FLAG....
+				LED_updateFLAG = 0;//clear - will be set back to 1 again by TIM2
+				//display current step in the pattern and progress to next step
+				//stops timer and enters test state when finished
+				DISPLAY_PATTERN(PATTERNS[selected_pattern]);
+			}
+			break;
+		case test:
+			//can either go to celebration_screen or fail_screen based on user input
+			break;
+		case celebration_screen: //the player has passed the test
+			if (LED_updateFLAG == 1){//if TIM2 has set the LED update FLAG....
+				LED_updateFLAG =0;//clear - will be set back to 1 again by TIM2
+				QUICK_TOGGLE_LED_BLOCK(&all_block);//toggle all colors
+			}
+			if (msTimer - system_timeSTAMP>= CELEBRATION_DURATION){//if the win screen time is up...
+				TURN_OFF_LED_BLOCK(&all_block); //turn off all colors
+				system_timeSTAMP = msTimer; //create time stamp to leave next phase
+				gamestate = wait_for_next_game; //transition
+			}
+			break;
+		case fail_screen://the player pressed the wrong button, failing the test
+			if (LED_updateFLAG == 1){//if TIM2 has set the LED update FLAG....
+				LED_updateFLAG = 0;//clear - will be set back to 1 again by TIM2
+				FAIL_LED_TOGGLE; //Toggle FAIL LED
+			}
+			if (msTimer - system_timeSTAMP>= FAIL_SCREEN_DURATION){//if TIM2 has set the LED update FLAG....
+				TURN_OFF_LED_BLOCK(&all_block);//turn off all colors
+				FAIL_LED_OFF;//turn off the FAIL LED
+				system_timeSTAMP = msTimer; //create timestamp
+				gamestate = loading_pattern; //load the pattern again
+			}
+			break;
+		case wait_for_next_game: //cool down after a win
+			if (msTimer - system_timeSTAMP>= NEXT_GAME_COOLDOWN_DURATION){//if the cool down time has passed...
+			    updateARR(TWO_HZ_SPEED);//stop timer and set ARR value to 2HZ
+			    gamestate = start_screen_display;//enter the start screen
+			}
+			break;
 		}//end switch
 
 
