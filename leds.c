@@ -7,9 +7,9 @@
 //================================================================================================
 // configure_LEDS()
 // @parm:   *port = GPIOx
-// @parm:	pins[] = Array containing the port pin numbers used
+// @parm:   pins[] = Array containing the port pin numbers used
 // @parm:   number_of_pins = Number of port pins used
-// @parm:	port_clock_num = The number associated with the port clock "0 for port A"
+// @parm:   port_clock_num = The number associated with the port clock "0 for port A"
 // @return: none
 // 		Conveniently configures multiple LEDs at once. Also assists with board wire management.
 //================================================================================================
