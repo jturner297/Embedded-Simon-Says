@@ -54,13 +54,8 @@
 
 #define DIFFICULTY_INDICATOR_LED_ON(level) DIFFICULTY_INDICATOR_LEDS[level].port->ODR |= (0x1 << DIFFICULTY_INDICATOR_LEDS[level].pin)
 
-
-enum AVAILIBLE_PATTERNS {PATTERN_1, PATTERN_2, PATTERN_3, PATTERN_4};
-
-
 //enums
-
-//enum choices { BLUE_BUTTON_PUSHED = 1, RED_BUTTON_PUSHED = 2, YELLOW_BUTTON_PUSHED =3, GREEN_BUTTON_PUSHED=4 };
+enum AVAILIBLE_PATTERNS {PATTERN_1, PATTERN_2, PATTERN_3, PATTERN_4};
 enum gamestates {start_screen_display, leaving_start_screen, loading_pattern, displaying_pattern, test, celebration_screen, fail_screen, wait_for_next_game}; // test, loading_win_pattern, win, mode_select, enter_mode_select};
 enum identifications {B=0, R=1, Y=2, G=3, ALL, SPECIAL, UNASSIGNED};
 
@@ -80,8 +75,6 @@ struct button{
 };
 
 
-
-
 struct LEDblock{
 	struct Light_Emitting_Diode* leds; //Array containing the hardware info for the LEDblock
 	const uint32_t count; //indicates the number of individual LEDS that make up a LED block
@@ -93,9 +86,8 @@ struct LEDblock{
 struct GAME_PATTERN{
 	uint32_t sequence[MAX_PATTERN_SIZE]; //Hard-coded array containing the sequence/order of the colors in the pattern
 	struct LEDblock *dataBLOCKS[MAX_PATTERN_SIZE]; //array containing the LEDS that correspond to the colors in the sequence
-    const uint32_t length; //length of the sequence
+        const uint32_t length; //length of the sequence
 	uint32_t current_step; //tracks the progress of the sequence - this value will be incremented
-
 };
 
 
