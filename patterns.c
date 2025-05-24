@@ -61,7 +61,7 @@ void DISPLAY_PATTERN (struct GAME_PATTERN *pattern){
 
 //================================================================================================
 // CANCEL_ACTIVE_PATTERN()
-// @parm: none
+// @parm:  *pattern - pointer to GAME_PATTERN struct
 // @return: none
 // 		 Cancels the active pattern by stopping the timer, turning off all LEDS and resetting the
 //		 pattern progress
@@ -73,15 +73,10 @@ void CANCEL_ACTIVE_PATTERN(struct GAME_PATTERN *pattern){
 }
 
 
-
-
-
 //patterns that the user can cycle through with the special button
 struct GAME_PATTERN *PATTERNS[] = {&SUPER_EASY_PATTERN, &EASY_PATTERN, &MEDIUM_PATTERN, &HARD_PATTERN};
 
-
-
-//======patterns======================================================
+//------patterns-----------------------------
 struct GAME_PATTERN SUPER_EASY_PATTERN = {
     .sequence = {B, G, R, Y},
     .dataBLOCKS = {}, //filled in later by function
@@ -112,10 +107,10 @@ struct GAME_PATTERN HARD_PATTERN = {
 };
 
 struct GAME_PATTERN IMPOSSIBLE_PATTERN = {
-		.sequence = {R, B, G, B, Y, G, R, G, Y, B, G},
-		.dataBLOCKS =  {},
-		.length = 11,
-		.current_step = 0
+	.sequence = {R, B, G, B, Y, G, R, G, Y, B, G},
+	.dataBLOCKS =  {},
+	.length = 11,
+	.current_step = 0
 };
 
 
