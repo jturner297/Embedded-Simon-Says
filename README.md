@@ -2,10 +2,10 @@
 
 <img src="assets/STM-SAYS_thumbnailGIF.gif" width="500" />
 
-A pattern matching memory game built on STM32
+A pattern-matching memory game built on STM32
 
 ## Overview
-**Embedded Simon Says** is a recreation of the classic game of Simon Says, but built on STM32 using physical LEDs and buttons. 
+**Embedded Simon Says** is a recreation of the classic game of Simon Says, but built on STM32 using physical LEDs and buttons. Players test their memory against increasinly complex patterns. Patterns consits of 4 different colors, with each color having it's own dedicated button. 
 
 
 
