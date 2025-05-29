@@ -5,12 +5,22 @@
 A pattern-matching memory game built on STM32
 
 ## Overview
-**Embedded Simon Says** is a recreation of the classic game of Simon Says, but built on **STM32** using physical LEDs and buttons. Players must memorize and replicate increasingly complex patterns using the corresponding buttons. There are two modes of operation: Practice Mode and Challenge Mode. There are 4 unique patterns.
+**Embedded Simon Says** is a recreation of the classic game of Simon Says, but built on **STM32** using physical LEDs and buttons. 
+
+###  Gameplay Modes
+
+**Challenge Mode**: Designed to test the player’s memory. 
+  - Players must replicate an increasingly complex pattern perfectly
+  - One mistakes end the gane
+  - Each succesful round turns 2 more LEDs on at the end of the game
+  - Goal: complete 8 rounds to light all 16 LEDs on the results screen. 
+
+**Learning Mode**: Designed to help players memorize and study patterns at their own pace. 
+  - Players can view the entire pattern from the start
+  - No adapting difficulty, 
+  - Unlimited attempts at recreating the pattern, no penalties for mistakes
 
 
-**Challenge Mode**: Designed to test the player’s memory. Players must replicate each pattern perfectly, with any mistake ending the challenge immediately. At the end of each game players can see how far they progressed through the pattern on main LEDs display. Each succesful round turns 2 LEDs on, up to a maximum of 8 rounds (for a total of 16 LEDs). The player's end goal is to get all LEDs to turn on in the results screen. 
-
-Practice Mode: Designed to be as accesible as possible. Players are encouraged to fully memorize the patterns. They are given unlimited attempts.
 
 ## Demo
 <table>
