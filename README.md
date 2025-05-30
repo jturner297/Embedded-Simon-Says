@@ -26,7 +26,7 @@ Designed to help players memorize and study patterns at their own pace.
 <table>
   <tr>
     <td>
-      <a href="https://www.youtube.com/watch?v=8bnj9skPk7E">
+      <a href="https://www.youtube.com/watch?v=YpWlhrKDB2I">
         <img src="assets/STM-SAYS_demo_thumbnail.jpg" width="400" />
       </a>
     </td>
