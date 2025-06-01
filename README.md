@@ -2,10 +2,17 @@
 
 <img src="assets/STM-SAYS_thumbnailGIF.gif" width="500" />
 
-A pattern-matching memory game built on STM32
+A faithful recreation of the classic Simon memory game built on STM32
 
 ## Overview
 **Embedded Simon Says** is a recreation of the classic game of **Simon Says**, but built on **STM32** using physical LEDs and buttons. Features two distinct gameplay modes.
+ 
+### Learning Mode 
+Designed to help players memorize and study patterns at their own pace. 
+  - Players can view the entire pattern from the start
+  - No adapting difficulty
+  - Unlimited attempts at recreating the pattern, no penalties for mistakes
+  - Goal: master the sequences
 
 ### Challenge Mode
 Designed to test the player’s memory. 
@@ -13,21 +20,13 @@ Designed to test the player’s memory.
   - One mistakes end the gane
   - Each succesful round turns 2 more LEDs on at the end of the game
   - Goal: complete 8 rounds to light all 16 LEDs on the results screen
-    
-### Learning Mode
-Designed to help players memorize and study patterns at their own pace. 
-  - Players can view the entire pattern from the start
-  - No adapting difficulty
-  - Unlimited attempts at recreating the pattern, no penalties for mistakes
-
-
 
 ## Demo
 <table>
   <tr>
     <td>
       <a href="https://www.youtube.com/watch?v=YpWlhrKDB2I">
-        <img src="assets/STM-SAYS_demo_thumbnail.jpg" width="400" />
+        <img src="assets/stm-says - demo_thumbail_B.png" width="400" />
       </a>
     </td>
   </tr>
@@ -37,12 +36,11 @@ Designed to help players memorize and study patterns at their own pace.
 </table>
 
 ## Features
-🎮 **Player Interaction**
-  - Players use four color-coded buttons that correspond to LED blocks to enter the pattern
-  - 
+🎮 **Two Gameplay Modes**
 
-🔄 **Four Unique Patterns/Sequences**
+ **Four Unique Patterns/Sequences**
 
+🔄️ **Manual Pattern Switching**
 
 🔧 **Modular Codebase**
   - Organized across multiple files like input.c, patterns.c, leds.c for clarity and scalability
