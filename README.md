@@ -2,7 +2,7 @@
 
 <img src="assets/STM-SAYS_thumbnailGIF.gif" width="500" />
 
-A faithful recreation of the classic Simon memory game, built entirely on STM32 using LEDs and buttons.
+A faithful recreation of the classic **Simon memory game**, built entirely on STM32 using LEDs and buttons.
 
 ## Overview
 **Embedded Simon Says** recreates the iconic memory game using the **STM32L476RG microcontroller**. It features **two distinct gameplay modes**. Perfect for practicing pattern recognition or just testing your memory.
@@ -10,17 +10,17 @@ A faithful recreation of the classic Simon memory game, built entirely on STM32 
 
 
 ### Learning Mode 
-Designed to help players memorize and study patterns at their own pace. 
-  - Players can view the entire pattern from the start
-  - Unlimited attempts at recreating the pattern, no penalties for mistakes
-  - Goal: master the sequence
+Designed to help players **memorize and study** patterns at their own pace. 
+  - Players can **view the entire pattern** from the start
+  - **Unlimited attempts** at recreating the pattern, no penalties for mistakes
+  - Goal: **Master the sequence**
 
 ### Challenge Mode
-Designed to test the player’s memory. 
-  - Players must replicate an increasingly complex pattern perfectly
-  - One mistakes end the gane
-  - Each succesful round turns 2 more LEDs on at the end of the game
-  - Goal: complete 8 rounds to light all 16 LEDs on the results screen
+Designed to **test** the player’s memory. 
+  - Players must replicate an **increasingly complex pattern**
+  - One **mistakes end the gane**
+  - Each succesful round lights up **2 progress LEDs**, up to 16 total
+  - Goal: **Complete 8 rounds** to fully light all 16 LEDs on the scoreboard
 
 ## Demo
 <table>
@@ -32,36 +32,35 @@ Designed to test the player’s memory.
     </td>
   </tr>
   <tr>
-    <td><sub><strong>Gameplay/Features Showcase</strong></sub></td>
+    <td><sub><strong>Gameplay & Features Showcase</strong></sub></td>
   </tr>
 </table>
 
 ## Features
-✅ Two Game Modes:
- - Learning: View full patterns for training
- - Challenge: Authentic Simon experience with growing pattern sequences
+✅ Two Gameplay Modes
+ - Learning: View full sequence for training
+ - Challenge: Authentic Simon experience with growing pattern length
 
-🧠 4 unique patterns
- - Each with different levels of complexity  
+🧠 Four Unique Patterns
+ - Each offering a different level of complexity
 
-🔁 Instantly switch between game modes and patterns with the built-in USER button
- - Tapping switches to the next pattern
- - Holding changes active game mode
+🔁 Instant Mode & Pattern Switching
+ - *Tap* the USER button to switch patterns
+ - *Hold* the USER button to change between modes
 
-🕹️ Interrupt-based input handling
+🕹️ Interrupt-Based Input Handling
  - External interrupts on PA1, PA4, PC0, PC2, and PC13
  - Software debouncing ensures clean button logic
 
-⏱️ Precise timing  
+⏱️ Precise Timing
  - TIM2 for animations
- - SysTick for timekeeping
+ - SysTick for general timekeeping and delays
  
-💡 Full LED-based visual interface
- - Visual scoreboard in Challenge Mode that tracks player progress
- - Mode transitions and active pattern indicated on four white LEDs
- - Single Green LED used to indicate when system is ready for player input
- - Single Red LED indicates when a player makes a mistake
-
+💡 LED-Centric Visual Interface
+ - 16-LED scoreboard displays progress at the end of a game (Challenge Mode)
+ - 4 white indicator LEDs show mode transition and active pattern
+ - Green LED signals when input is expected
+ - Red LED signals an incorrect input
 
 
 
