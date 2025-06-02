@@ -2,17 +2,18 @@
 
 <img src="assets/STM-SAYS_thumbnailGIF.gif" width="500" />
 
-A faithful recreation of the classic Simon memory game built on STM32
+A faithful recreation of the classic Simon memory game, built entirely on STM32 using LEDs and buttons.
 
 ## Overview
-**Embedded Simon Says** is a recreation of the classic game of **Simon Says**, but built on **STM32** using physical LEDs and buttons. Features two distinct gameplay modes.
- 
+**Embedded Simon Says** recreates the iconic memory game using the **STM32L476RG microcontroller**. It features **two distinct gameplay modes**. Perfect for practicing pattern recognition or just testing your memory.
+
+
+
 ### Learning Mode 
 Designed to help players memorize and study patterns at their own pace. 
   - Players can view the entire pattern from the start
-  - No adapting difficulty
   - Unlimited attempts at recreating the pattern, no penalties for mistakes
-  - Goal: master the sequences
+  - Goal: master the sequence
 
 ### Challenge Mode
 Designed to test the player’s memory. 
@@ -36,42 +37,36 @@ Designed to test the player’s memory.
 </table>
 
 ## Features
-🎮 **Two Gameplay Modes**
+✅ Two Game Modes:
+ - Learning: View full patterns for training
+ - Challenge: Authentic Simon experience with growing pattern sequences
 
- **Four Unique Patterns/Sequences**
+🧠 4 unique patterns
+ - Each with different levels of complexity  
 
-🔄️ **Manual Pattern Switching**
+🔁 Instantly switch between game modes and patterns with the built-in USER button
+ - Tapping switches to the next pattern
+ - Holding changes active game mode
 
-🔧 **Modular Codebase**
-  - Organized across multiple files like input.c, patterns.c, leds.c for clarity and scalability
-  - Allows users to easily add or modify gameplay patterns by updating a single module, without affecting core game logic
+🕹️ Interrupt-based input handling
+ - External interrupts on PA1, PA4, PC0, PC2, and PC13
+ - Software debouncing ensures clean button logic
+
+⏱️ Precise timing  
+ - TIM2 for animations
+ - SysTick for timekeeping
+ 
+💡 Full LED-based visual interface
+ - Visual scoreboard in Challenge Mode that tracks player progress
+ - Mode transitions and active pattern indicated on four white LEDs
+ - Single Green LED used to indicate when system is ready for player input
+ - Single Red LED indicates when a player makes a mistake
 
 
 
 
-⚙️ **State machine-driven architecture**
-  - Clearly defined game phases: serve, movement, hitzone, miss, win animation
-  - Transitions managed through timers and input state
 
-⚡ **Hit detection and reaction feedback**
-  - HITZONE LEDs toggle off briefly when a button is pressed
-  - Timed LED feedback provides clear input acknowledgment
 
-🕒 **Real-time processing using timers**
-  - TIM2 used to control LED movement speed and animation
-  - SysTick used for millisecond timekeeping and debouncing
 
-👆 **Interrupt-based input handling**
-  - External interrupts on PA1, PA4, and PC13
-  - Software debouncing ensures clean button logic
 
-🧠 **Scoring and win logic**
-  - Score resets on a miss
-  - First player to win 3 consecutive rounds wins the game
-  - Flashing POINTS LEDs indicate game win/victory
 
-🔁 **Instant Mode switching**
-  - Pressing the built-in USER button toggles between MOVE_MODE and PLAY_MODE
-
-🧪 **Low-level embedded C**
-  - Written without HAL; uses direct register manipulation (CMSIS)
