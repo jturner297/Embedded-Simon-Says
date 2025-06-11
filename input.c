@@ -187,6 +187,7 @@ void BUTTON_ACTIONS(struct button *button, struct GAME_PATTERN *pattern, uint32_
 //================================================================================================
 // SPECIAL_BUTTON_ACTIONS()
 // @parm: *button = Pointer to the button struct representing the button
+// @parm: currentTIME_ms - current system time in milliseconds
 // @return: none
 //	 	Handles the logic/behavior for a special button press
 //================================================================================================
@@ -194,12 +195,12 @@ void SPECIAL_BUTTON_ACTIONS(struct button *button, uint32_t currentTIME_ms){
 	button->press_ready = 0;
 	if (SpecialButtonPressed){ //if button physically pressed
 		button_held = 1; //set button_held flag
-		button_press_timeSTAMP = currentTIME_ms; //set button_held flag
+		button_press_timeSTAMP = currentTIME_ms; //used to calculate how long the button was pressed for
 	}
 	else{//button released
 		if (button_held){
 			uint32_t held_duration = currentTIME_ms - button_press_timeSTAMP; //calculate held duration
-			button_held = 0;
+			button_held = 0; //immediately clear
 			if (held_duration < TIME_500MS) {//if short press
 				if (gamestate != system_mode_switch){
 					CANCEL_ACTIVE_PATTERN(PATTERNS[selected_pattern]);

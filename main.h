@@ -23,7 +23,8 @@
 #define SYS_CLK_FREQ 4000000// default frequency of the device = 4 MHZ
 #define cntclk 1000
 
-#define TWO_HZ_SPEED 3
+#define TWO_HZ_SPEED 2
+#define THREE_HZ_SPEED 3
 #define FOUR_HZ_SPEED 4
 #define SIX_HZ_SPEED 6
 
@@ -69,7 +70,7 @@
 #define FAIL_SCREEN_DURATION 1500 //time the fail screen state is active
 #define CELEBRATION_DURATION 3500 //time the celebration screen state is active
 #define NEXT_GAME_COOLDOWN_DURATION 1000
-#define LED_TOGGLE_TIME 350 //time an LED stays on when one of the 4 standard buttons is pressed
+#define LED_TOGGLE_TIME 250 //time an LED stays on when one of the 4 standard buttons is pressed.
 
 #define TIME_500MS 500
 #define TIME_10_SEC 10000
@@ -90,7 +91,7 @@ enum gamestates {start_screen_display, leaving_start_screen, loading_pattern, di
 	fail_screen, celebration_screen, wait_for_next_game , system_mode_switch};
 
 enum identifications {B=0, R=1, Y=2, G=3, SPECIAL, ALL, UNASSIGNED_ID};
-enum system_states {practice_mode, challenge_mode};
+enum system_states {learning_mode, challenge_mode};
 
 //Structures
 struct Light_Emitting_Diode{

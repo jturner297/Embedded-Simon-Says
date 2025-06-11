@@ -67,7 +67,12 @@ void CANCEL_ACTIVE_PATTERN(struct GAME_PATTERN *pattern){
 	STOP_TIM2_SAFELY();
 	TURN_OFF_LED_BLOCK(&all_block);
 	pattern->current_step = 0;
-	active_pattern_length = 1;
+	if(system_state == challenge_mode){//if system is in challenge_mode
+		active_pattern_length = 1;
+	}
+	else{ //system is in learning mode
+		active_pattern_length = pattern->length;
+	}
 }
 
 

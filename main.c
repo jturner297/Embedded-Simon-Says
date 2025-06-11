@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stm32l476xx.h>
 #include <stddef.h> // For NULL definition
+
 #include "main.h"
 #include "input.h"
 #include "leds.h"
@@ -15,7 +16,7 @@
 *  Embedded Simon Says
 **************************************************************************************************
 */
-enum system_states system_state = practice_mode; //sets the default system operating mode
+enum system_states system_state = learning_mode; //sets the default system operating mode
 enum gamestates gamestate = start_screen_display;//sets starting gamestate
 enum AVAILIBLE_PATTERNS selected_pattern = PATTERN_1; //sets the default selected pattern
 
@@ -27,7 +28,7 @@ volatile uint32_t inactivity_timeout; //value used in challenge mode, if the pla
 
 uint32_t system_timeSTAMP = 0; //used to create timestamps for game events and leaving states
 uint32_t input_index = 0; //used during the test state. Increments with each successful button input
-uint32_t active_pattern_length = 1; //controls what steps in the pattern/sequence is shown
+uint32_t active_pattern_length; //controls what steps in the pattern/sequence is shown
 
 int32_t LEDS_remaining_off = NUM_of_LEDS; //in challenge mode, the player's goal is to turn on all 16 LEDS in the celebration screen,
 //by successfully completing the whole pattern. Every round decreases this value by 2, there are 8 total rounds.
@@ -64,6 +65,10 @@ int main(void)
 			case start_screen_display://new game
 				if (system_state == challenge_mode){ //if the system is in challenge mode....
 					LEDS_remaining_off = NUM_of_LEDS;//sets the number of LEDS the player must turn off in challenge mode
+					active_pattern_length = 1; //initially show the first color in the sequence
+				}
+				else{//system is in learning mode
+					active_pattern_length = PATTERNS[selected_pattern]->length;//shows the entire pattern
 				}
 				TURN_ON_LED_BLOCK(&STATUS_INDICATOR_BLOCK); //turn on the fail and test LEDS
 				TURN_ON_LED_BLOCK(&all_block);//turn on all colors
@@ -82,8 +87,12 @@ int main(void)
 				break;
 			case loading_pattern: //prepare to display pattern
 				if(msTimer - system_timeSTAMP >= PATTERN_RELOAD_TIME){ //if the time is up
-					RECONFIG_AND_RESTART_TIMER(TWO_HZ_SPEED);//restart the timer at 2HZ (for pattern playback)
-
+					if (system_state == challenge_mode){ //if the system is in challenge mode....
+						RECONFIG_AND_RESTART_TIMER(THREE_HZ_SPEED);//restart the timer at 3HZ (for faster pattern playback)
+					}
+					else{//system is in learning mode
+						RECONFIG_AND_RESTART_TIMER(TWO_HZ_SPEED);//restart the timer at 2HZ (for pattern playback)
+					}
 				    PATTERNS[selected_pattern]->current_step = 0; //reset pattern progress
 					system_timeSTAMP = 0; //reset, it is not needed for the next state
 					gamestate = displaying_pattern; //transition
@@ -99,11 +108,12 @@ int main(void)
 				}
 				break;
 			case test://the player attempts to replicate the pattern
-				if (input_index == active_pattern_length ){ //if the player passes a round...
-					active_pattern_length++; //increases how much of the pattern is shown
+				if (input_index == active_pattern_length ){ //if the player passed a round or test...
 
 					GAME_OR_ROUND_OVER();//creates timestamp, turns test active LED off, and resets the input_index
+
 					if (system_state == challenge_mode){ //if the system in challenge mode.....
+						active_pattern_length++; //increases how much of the pattern is shown
 
 						//increases the amount of LEDS shown on final score board
 						if(PATTERNS[selected_pattern]->length == 8){
@@ -113,23 +123,28 @@ int main(void)
 							LEDS_remaining_off -=4;
 						}
 
-					}
-					//if there is no more of the pattern to show...
-					if (active_pattern_length > PATTERNS[selected_pattern]->length){//test is over
+						//if there is no more of the pattern to show...
+						if (active_pattern_length > PATTERNS[selected_pattern]->length){//test is over
+							//the player has passed the entire test, do these actions....
+							RECONFIG_AND_RESTART_TIMER(SIX_HZ_SPEED); //restart the timer at 6HZ (for celebration animation)
+							gamestate = celebration_screen; //exit test screen and go to celebration screen (display game over animation)
+						}
+						else{//test is not finished
+							gamestate = loading_pattern;
+						}
 
-						//the player has passed the entire test, do these actions....
+					}
+
+					else{//the system is in learning mode
 						RECONFIG_AND_RESTART_TIMER(SIX_HZ_SPEED); //restart the timer at 6HZ (for celebration animation)
-						gamestate = celebration_screen; //exit test screen and go to celebration screen (display game over animation)
+						gamestate = celebration_screen;
+					}
 
-					}
-					else{//test is not finished
-						gamestate = loading_pattern;
-					}
 			    }
 				if (system_state == challenge_mode && inactivity_timeout > TIME_10_SEC){
 					RECONFIG_AND_RESTART_TIMER(FOUR_HZ_SPEED); //restart the timer at 4HZ (for fail LED animation)
-						GAME_OR_ROUND_OVER();
-						gamestate = fail_screen;
+					GAME_OR_ROUND_OVER();
+					gamestate = fail_screen;
 				}
 				break;
 			case fail_screen://the player pressed the wrong button, failing
@@ -146,7 +161,7 @@ int main(void)
 						RECONFIG_AND_RESTART_TIMER(SIX_HZ_SPEED); //restart the timer at 6HZ (for celebration animation)
 						gamestate = celebration_screen; //exit fail screen and go to celebration screen (display game over animation)
 					}
-					else{//the system is in practice mode, so they get to try again endlessly
+					else{//the system is in learning mode, so they get to try again endlessly
 						gamestate = loading_pattern;
 					}
 					system_timeSTAMP = msTimer; //create timestamp for leaving the next state "loading_pattern" or "celebration_screen"
@@ -159,7 +174,7 @@ int main(void)
 					if(system_state == challenge_mode){//if the system is in challenge mode....
 						TOGGLE_SCOREBOARD();//toggle the score board
 					}
-					else{// the system is in practice mode.....
+					else{// the system is in learning mode.....
 						QUICK_TOGGLE_LED_BLOCK(&all_block);//toggle all colors
 					}
 				}
@@ -197,15 +212,16 @@ int main(void)
 
 		}//end switch
 
+		//handle SPECIAL LED
 		if(system_state == challenge_mode){ //if the system is in challenge mode....
 			SPECIAL_LED_ON;//turn special LED (PC13) on
 		}
-		else{ //the system in practice mode....
+		else{ //the system in learning mode....
 			SPECIAL_LED_OFF;//turn special LED (PC13) off
 		}
 
+		//handle selected pattern indicator (white LEDS)
 		if(gamestate!= system_mode_switch){//if game has not detected a system state change....
-			//handle selected pattern indicator (white LEDS)
 			if (gamestate != wait_for_next_game ){ //if the gamestate is not in "wait_for_next_game"
 				PATTERN_SELECT_LED_ON(selected_pattern); //Turn on the selected pattern indicator
 			}
@@ -307,7 +323,8 @@ void EXTI15_10_IRQHandler(void)
 // SysTick_Handler()
 // @parm: none
 // @return: none
-// 		Increments msTimer variable and handles the debounce protocols for all buttons
+// 		Increments msTimer variable and handles the debounce protocols for all buttons. Also tracks
+//		player inactivity in challenge_mode.
 //================================================================================================
 void SysTick_Handler(void)
 {
@@ -339,6 +356,8 @@ void TIM2_IRQHandler(void)
 		}
 	}
 }
+
+
 //================================================================================================
 // GAME_OR_ROUND_OVER()
 // @parm: none
