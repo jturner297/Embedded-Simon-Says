@@ -62,7 +62,20 @@ Designed to **test** the player’s memory.
  - Green LED signals when input is expected
  - Red LED signals an incorrect input
 
+## Hardware Requirements
+- STM32 NUCLEO-L476RG development board
+- 22 external LEDs:
+  - 4 white LEDs
+  - 4 blue LEDs
+  - 4 yellow LEDs
+  - 4 + 1 red LEDs  
+  - 4 + 1 green LEDs
+- 4 pushbuttons (connected to PA1, PA4, PC0, and PC2)
+- Breadboard and jumper wires
+- USB cable for power and flashing via ST-Link
 
+## Block Diagram
+<img src="assets/EmbeddedSimonSaysBD.png" alt="Game Thumbnail" width="1000"/> 
 
 
 
