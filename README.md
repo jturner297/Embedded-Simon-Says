@@ -26,7 +26,7 @@ Designed to **test** the player’s memory.
 <table>
   <tr>
     <td>
-      <a href="https://www.youtube.com/watch?v=YpWlhrKDB2I">
+      <a href="https://www.youtube.com/watch?v=J02tvOuEa3o">
         <img src="assets/stm-says - demo_thumbail_B.png" width="400" />
       </a>
     </td>
